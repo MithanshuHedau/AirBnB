@@ -1,0 +1,65 @@
+<% layout("/layouts/boilerplate") %>
+
+<body class="relative min-h-screen bg-black bg-fixed bg-center bg-cover font-sans text-white">
+
+  <!-- Overlay for blurred background -->
+  <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-0"></div>
+
+  <!-- Main content -->
+  <div class="relative z-10 container mx-auto px-4 py-12">
+
+    <!-- Header -->
+    <!-- <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-6">
+      <h1 class="text-4xl font-bold text-white">Stay Karna Chahoge? 🛏️</h1>
+      <a href="/listings/newlist"
+        class="bg-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition duration-200 shadow-lg">
+        + Add Hotel
+      </a>
+    </div> -->
+
+    <!-- Listings Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <% for (let listing of allListings) { %>
+        <div style="border:0.5px solid rgb(163, 160, 160); border-radius: 10px ; " class="bg-zinc-900 bg-opacity-80 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 ">
+
+          <!-- Image -->
+          <a href="/listings/<%= listing._id %>">
+            <img src="<%= listing.image %>" alt="<%= listing.title %>"
+            class="w-full h-48 object-cover hover:scale-105 transition duration-300" />
+          </a>
+          <!-- Content -->
+          <div class="p-4">
+            <a href="/listings/<%= listing._id %>"
+              class="block text-xl font-bold text-white hover:text-orange-400 truncate">
+              <%= listing.title %>
+            </a>
+            <p class="text-gray-300 text-sm mt-1 mb-3 line-clamp-2">
+              <%= listing.description %>
+            </p>
+            <p class="text-orange-400 font-semibold mb-1">₹ <%= listing.price.toLocaleString("en-IN") %></p>
+            <p class="text-gray-400 text-sm">📍 <%= listing.location %>, <%= listing.country %></p>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex justify-end space-x-2 px-4 pb-4">
+            <a href="/listings/<%= listing._id %>/edit"
+              class="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium shadow">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.828l-4 1a1 1 0 01-1.263-1.263l1-4a4 4 0 01.828-1.414z" />
+              </svg>
+              Edit
+            </a>
+            <a href="/listings/<%= listing._id %>/delete"
+              class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium shadow">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Delete
+            </a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,72 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Overlay -->
+<div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+<!-- Main Content -->
+<div class="relative z-10 flex items-center justify-center min-h-screen px-4 py-10">
+  <div  class="bg-[#1e1e1e] text-white   bg-opacity-90 backdrop-blur-sm rounded-xl shadow-2xl max-w-xl w-full overflow-hidden">
+    
+    <!-- Back Button container -->
+    <div class="flex items-center p-4 border-b border-gray-200">
+      <a
+        href="/listing"
+        class="hover:text-blue-600 font-semibold flex items-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      </a>
+    </div>
+
+    <img
+      src="<%= listing.image %>"
+      alt="<%= listing.title %>"
+      class="w-full h-60 object-cover"
+    />
+
+    <div class="p-6 space-y-4">
+      <h1 class="text-2xl font-bold text-white">
+        Listing ID: <%= listing.id %>
+      </h1>
+      <h2 class="text-xl text-white font-semibold">🏠 <%= listing.title %></h2>
+      <p class="text-white text-lg">
+        💰 <b>Price: ₹</b> <%= listing.price.toLocaleString("en-IN") %>
+      </p>
+      <p class="text-white text-lg">
+        📍 <b>Location:</b> <%= listing.location %>, <%= listing.country %>
+      </p>
+      <p class="text-white">📝 <%= listing.description %></p>
+    </div>
+
+    <div class="flex justify-end space-x-2 px-4 pb-4">
+      <a
+        href="/listings/<%= listing._id %>/edit"
+        class="inline-flex items-center px-3 py-1 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors duration-200 text-sm font-medium"
+      >
+        <svg
+          class="w-4 h-4 mr-1"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.828l-4 1a1 1 0 01-1.263-1.263l1-4a4 4 0 01.828-1.414z"
+          />
+        </svg>
+        Edit
+      </a>
+    </div>
+  </div>
+</div>

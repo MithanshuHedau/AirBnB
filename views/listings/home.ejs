@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") %>
+
+<body class="relative min-h-screen overflow-hidden font-sans text-white">
+
+  <!-- Background Video -->
+  <video 
+    autoplay 
+    loop 
+    muted 
+    playsinline 
+    class="absolute inset-0 w-full h-full object-cover -z-10"
+    src="/travel.mp4"
+  ></video>
+
+  <!-- Overlay to darken video for better text contrast -->
+  <div class="absolute inset-0 bg-black bg-opacity-50 -z-5"></div>
+
+  <!-- Centered Text -->
+  <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
+    <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+      Welcome to WanderLust
+    </h1>
+    <p class="text-xl md:text-2xl max-w-xl drop-shadow-md">
+      Explore the world’s best travel listings with comfort and style.
+    </p>
+    <div class="mt-8">
+      <a href="/listing" class="bg-orange-500 hover:bg-orange-600 px-6 py-3 rounded-xl font-semibold shadow-lg transition">
+        View Listings
+      </a>
+      <a href="/listings/newlist" class="ml-4 border-2 border-orange-500 hover:bg-orange-500 px-6 py-3 rounded-xl font-semibold transition">
+        + Add a Listing
+      </a>
+    </div>
+  </div>
+
+</body>
