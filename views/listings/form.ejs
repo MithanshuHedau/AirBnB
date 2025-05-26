@@ -1,97 +1,99 @@
 <% layout("/layouts/boilerplate") %>
 
-<body  class="min-h-screen bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#0d0d0d] text-white relative">
+<body class="min-h-screen bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#0d0d0d] text-white relative">
 
   <!-- Back Button -->
-  <a
-    href="/listing"
-    class="absolute top-4 left-4 z-50 text-gray-300 font-medium hover:text-purple-400 transition-all bg-white/5 px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/10 text-sm sm:text-base"
-  >
+  <a href="/listing"
+    class="absolute top-4 left-4 z-50 text-gray-300 font-medium hover:text-purple-400 transition-all bg-white/5 px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/10 text-sm sm:text-base">
     ← Back to Listings
   </a>
 
   <!-- Centering Container -->
-  <div  class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+  <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
     <!-- Glassmorphism Card -->
-    <div style="border: 1px solid rgb(163, 160, 160);; border-radius: 10px;" class="backdrop-blur-2xl bg-white/5 border border-white/10 shadow-xl rounded-3xl p-6 sm:p-10 w-full max-w-md sm:max-w-2xl">
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 sm:mb-8 tracking-wide text-purple-400">
+    <div style="border: 1px solid rgb(163, 160, 160); border-radius: 10px;"
+      class="backdrop-blur-2xl bg-white/5 border border-white/10 shadow-xl rounded-3xl p-6 sm:p-10 w-full max-w-md sm:max-w-2xl">
+      <h1
+        class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 sm:mb-8 tracking-wide text-purple-400">
         🛎️ Add a New Hotel
       </h1>
 
-      <form action="/listings" method="post" class="space-y-4 sm:space-y-5">
+      <!-- Bootstrap Validation Form -->
+      <form action="/listings" method="post" class="needs-validation space-y-4 sm:space-y-5" novalidate>
         <div>
-          <label class="block text-gray-300 font-medium mb-1">Title</label>
-          <input
-            type="text"
-            name="title"
-            placeholder="e.g., Ocean View Resort"
-            required
-            class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-          />
+          <label class="form-label text-gray-300 font-medium mb-1">Title</label>
+          <input type="text" name="title" placeholder="e.g., Ocean View Resort" required
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
+          <div class="invalid-feedback">Hotel Kaa naam toh add kar </div>
         </div>
 
         <div>
-          <label class="block text-gray-300 font-medium mb-1">Description</label>
-          <input
-            type="text"
-            name="description"
-            placeholder="Brief about the hotel..."
-            required
-            class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-          />
+          <label class="form-label text-gray-300 font-medium mb-1">Description</label>
+          <input type="text" name="description" placeholder="Brief about the hotel..." required
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
+          <div class="invalid-feedback">Description kon daalega ?</div>
         </div>
 
         <div>
-          <label class="block text-gray-300 font-medium mb-1">Image URL</label>
-          <input
-            type="text"
-            name="image"
-            placeholder="https://example.com/image.jpg"
-            class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-          />
+          <label class="form-label text-gray-300 font-medium mb-1">Image URL</label>
+          <input type="text" name="image" placeholder="https://example.com/image.jpg"
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-          <div>
-            <label class="block text-gray-300 font-medium mb-1">Location</label>
-            <input
-              type="text"
-              name="location"
-              placeholder="City or Region"
-              required
-              class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-            />
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-gray-300 font-medium">Location</label>
+            <input type="text" name="location" placeholder="City or Region" required
+              class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
+            <div class="invalid-feedback">Location bhi bhool gaya ?🙂</div>
           </div>
-          <div>
-            <label class="block text-gray-300 font-medium mb-1">Country</label>
-            <input
-              type="text"
-              name="country"
-              placeholder="Country"
-              required
-              class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-            />
+          <div class="col-md-6 mb-3">
+            <label class="form-label text-gray-300 font-medium">Country</label>
+            <input type="text" name="country" placeholder="Country" required
+              class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
+            <div class="invalid-feedback">Are country toh yaad kar lee Bhai 😭</div>
           </div>
         </div>
 
         <div>
-          <label class="block text-gray-300 font-medium mb-1">Price (₹)</label>
-          <input
-            type="number"
-            name="price"
-            placeholder="Per night price"
-            required
-            class="w-full p-2.5 sm:p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
-          />
+          <label class="form-label text-gray-300 font-medium mb-1">Price (₹)</label>
+          <input type="number" name="price" placeholder="Per night price" required
+            class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
+          <div class="invalid-feedback">price yaane haddd hai abb 😕</div>
         </div>
 
-        <button
-          type="submit"
-          class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl text-lg font-semibold shadow-md hover:from-purple-700 hover:to-pink-600 transition-all"
-        >
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="checkbox" id="termsCheck" required />
+          <label class="form-check-label" for="termsCheck">
+            Agree to terms and conditions
+          </label>
+          <div class="invalid-feedback">
+            Jyada Ho raha abb tera 🙏
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl text-lg font-semibold shadow-md hover:from-purple-700 hover:to-pink-600 transition-all">
           ➕ Add Hotel
         </button>
       </form>
     </div>
   </div>
+
+  <!-- Bootstrap Validation Script -->
+  <script>
+    (() => {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
 </body>

@@ -1,143 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Listing</title>
-  <link rel="shortcut icon" href="https://cdn.vectorstock.com/i/1000v/82/31/travel-logo-icon-design-vector-22948231.jpg" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #121212;
-      color: #e0e0e0;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .form-container {
-      background: #1e1e1e;
-      padding: 2.5rem 3rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .form-container h2 {
-      margin-bottom: 1.5rem;
-      text-align: center;
-      color: #ffffff;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .form-fields {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .form-fields input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #333;
-      background-color: #2b2b2b;
-      color: #ffffff;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: border 0.3s, box-shadow 0.3s;
-    }
-
-    .form-fields input::placeholder {
-      color: #aaa;
-    }
-
-    .form-fields input:focus {
-      outline: none;
-      border-color: #ff8a65;
-      box-shadow: 0 0 6px rgba(255, 138, 101, 0.4);
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      background-color: #ff5722;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      text-decoration: none; /* for <a> */
-    }
-
-    .btn:hover {
-      background-color: #e64a19;
-    }
-    .btns {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      background-color: #ffffff;
-      color: #000000;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      text-decoration: none; /* for <a> */
-    }
-
-    .btns:hover {
-      color: #ffffff;
-      background-color: #656464;
-    }
-
-    .form-image {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .form-image img {
-      max-width: 100%;
-      border-radius: 10px;
-      border: 1px solid #444;
-    }
-
-    @media (max-width: 768px) {
-      .form-row {
-        flex-direction: column;
-      }
-
-      .form-image {
-        margin-top: 20px;
-      }
-    }
-  </style>
-</head> -->
 <% layout("/layouts/boilerplate") %>
 
 <div class="min-h-screen flex items-center justify-center px-4 py-8">
@@ -149,55 +9,22 @@
         Edit Listing: <span class="text-yellow-400"><%= listing._id %></span>
       </h2>
 
-      <form method="post" action="/listings/<%= listing._id %>?_method=PUT" class="flex flex-col space-y-4">
-        <input
-          type="text"
-          name="title"
-          value="<%= listing.title %>"
-          placeholder="Title"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-        <input
-          type="text"
-          name="description"
-          value="<%= listing.description %>"
-          placeholder="Description"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-        <input
-          type="text"
-          name="price"
-          value="<%= listing.price %>"
-          placeholder="Price"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-        <input
-          type="text"
-          name="location"
-          value="<%= listing.location %>"
-          placeholder="Location"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-        <input
-          type="text"
-          name="country"
-          value="<%= listing.country %>"
-          placeholder="Country"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-        <input
-          type="text"
-          name="image"
-          value="<%= listing.image %>"
-          placeholder="Image URL"
-          required
-          class="p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-        />
+      <form id="editForm" method="post" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="flex flex-col space-y-4">
+        <% const fields = ["title", "description", "price", "location", "country", "image"]; %>
+        <% fields.forEach(field => { %>
+          <div>
+            <input
+              type="text"
+              name="<%= field %>"
+              id="<%= field %>"
+              value="<%= listing[field] %>"
+              placeholder="<%= field.charAt(0).toUpperCase() + field.slice(1) %>"
+              required
+              class="p-3 w-full rounded-md bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:outline-none"
+            />
+            <p class="text-red-500 text-sm mt-1 hidden">Please enter a valid <%= field %>.</p>
+          </div>
+        <% }) %>
 
         <button
           type="submit"
@@ -225,4 +52,32 @@
   </div>
 </div>
 
-<!-- </html> -->
+<script>
+  const form = document.getElementById('editForm');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    let valid = true;
+    const inputs = form.querySelectorAll('input[required]');
+
+    inputs.forEach(input => {
+      const error = input.nextElementSibling;
+
+      if (!input.value.trim()) {
+        input.classList.remove('border-white/20');
+        input.classList.add('border-red-500');
+        error.classList.remove('hidden');
+        valid = false;
+      } else {
+        input.classList.remove('border-red-500');
+        input.classList.add('border-green-500');
+        error.classList.add('hidden');
+      }
+    });
+
+    if (valid) {
+      form.submit(); // Actually submit if everything is valid
+    }
+  });
+</script>

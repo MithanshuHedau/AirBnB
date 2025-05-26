@@ -6,6 +6,8 @@ const Listing = require("./models/listning.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -34,10 +36,13 @@ app.get("/", (req, res) => {
 });
 
 // Listing All Lists in index.ejs
-app.get("/listing", async (req, res) => {
-  const allListings = await Listing.find();
-  res.render("listings/index.ejs", { allListings });
-});
+app.get(
+  "/listing",
+  wrapAsync(async (req, res) => {
+    const allListings = await Listing.find();
+    res.render("listings/index.ejs", { allListings });
+  })
+);
 
 // Creating a new listing
 app.get("/listings/newlist", (req, res) => {
@@ -67,46 +72,70 @@ app.post("/listings", (req, res) => {
 });
 
 // Edit Form Rendering
-app.get("/listings/:id/edit", async (req, res) => {
-  let { id } = req.params;
-  let listing = await Listing.findById(id);
-  res.render("listings/editfrom.ejs", { listing });
-});
+app.get(
+  "/listings/:id/edit",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findById(id);
+    res.render("listings/editfrom.ejs", { listing });
+  })
+);
 
 // Updating the listing
-app.put("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, description, image, location, country, price } = req.body;
-  let updatedData = await Listing.findByIdAndUpdate(id, {
-    title: title,
-    description: description,
-    image: image,
-    location: location,
-    country: country,
-    price: price,
-  });
-  res.redirect(`/listings/${id}`);
-});
+app.put(
+  "/listings/:id",
+  wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const { title, description, image, location, country, price } = req.body;
+    let updatedData = await Listing.findByIdAndUpdate(id, {
+      title: title,
+      description: description,
+      image: image,
+      location: location,
+      country: country,
+      price: price,
+    });
+    res.redirect(`/listings/${id}`);
+  })
+);
 
 // Deleting Form
-app.get("/listings/:id/delete", async (req, res) => {
-  const { id } = req.params;
-  let listing = await Listing.findById(id);
-  res.render("listings/deleteform.ejs", { listing });
-});
+app.get(
+  "/listings/:id/delete",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    let listing = await Listing.findById(id);
+    res.render("listings/deleteform.ejs", { listing });
+  })
+);
 
 // Listing the Particular List in show.ejs from index.ejs
-app.get("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  let listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { id, listing });
-});
+app.get(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    let listing = await Listing.findById(id);
+    res.render("listings/show.ejs", { id, listing });
+  })
+);
 
 // Deleting the listing
-app.post("/listing/:id", async (req, res) => {
-  const { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  res.redirect("/listing");
+app.post(
+  "/listing/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listing");
+  })
+);
+
+// app.all("*", (req, res, next) => {
+//   next(new ExpressError(404, "Page Not Found"));
+// });
+
+app.use((err, req, res, next) => {
+  let { statuscode = 500, message = "Something went wrong" } = err;
+  res.render("listings/error.ejs", { statuscode, message });
 });
 
 app.listen(port, () => {
