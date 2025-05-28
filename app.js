@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const Review = require("./models/review.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -114,7 +115,7 @@ app.get(
   "/listings/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    let listing = await Listing.findById(id);
+    let listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { id, listing });
   })
 );
@@ -132,6 +133,40 @@ app.post(
 // app.all("*", (req, res, next) => {
 //   next(new ExpressError(404, "Page Not Found"));
 // });
+app.post(
+  "/listings/:id/reviews",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    let listing = await Listing.findById(id);
+    const newreview = new Review({ rating, comment });
+    listing.reviews.push(newreview);
+    await newreview.save();
+    await listing.save();
+    console.log("Review added successfully");
+    res.redirect(`/listings/${id}`);
+  })
+);
+
+// Deleting the review
+app.post(
+  "/listings/:listingId/deleteReview/:reviewId",
+  wrapAsync(async (req, res) => {
+    const { listingId, reviewId } = req.params;
+
+    try {
+      await Review.findByIdAndDelete(reviewId);
+      await Listing.findByIdAndUpdate(listingId, {
+        $pull: { reviews: reviewId },
+      });
+      console.log("Review deleted successfully");
+      res.redirect(`/listings/${listingId}`);
+    } catch (err) {
+      console.error("Error deleting review:", err);
+      res.status(500).send("Something went wrong");
+    }
+  })
+);
 
 app.use((err, req, res, next) => {
   let { statuscode = 500, message = "Something went wrong" } = err;

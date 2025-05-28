@@ -40,24 +40,6 @@
             <p class="text-gray-400 text-sm">📍 <%= listing.location %>, <%= listing.country %></p>
           </div>
 
-          <!-- Actions -->
-          <div class="flex justify-end space-x-2 px-4 pb-4">
-            <a href="/listings/<%= listing._id %>/edit"
-              class="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium shadow">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.828l-4 1a1 1 0 01-1.263-1.263l1-4a4 4 0 01.828-1.414z" />
-              </svg>
-              Edit
-            </a>
-            <a href="/listings/<%= listing._id %>/delete"
-              class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium shadow">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              Delete
-            </a>
-          </div>
         </div>
       <% } %>
     </div>
