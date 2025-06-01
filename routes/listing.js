@@ -18,7 +18,7 @@ router.get("/newlist", (req, res) => {
 });
 
 // Posting the new listing to the database
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
   const { title, description, image, location, country, price } = req.body;
   const newData = new Listing({
     title: title,
@@ -36,6 +36,7 @@ router.post("/", (req, res) => {
     .catch((err) => {
       console.log("Error saving data", err);
     });
+  req.flash("success", "New listing created successfully!");
   res.redirect("/listings");
 });
 
@@ -63,6 +64,7 @@ router.put(
       country: country,
       price: price,
     });
+    req.flash("success", `${title} updated successfully!`);
     res.redirect(`/listings/${id}`);
   })
 );
@@ -70,7 +72,7 @@ router.put(
 // Deleting Form
 router.get(
   "/:id/delete",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     let listing = await Listing.findById(id);
     res.render("listings/deleteform.ejs", { listing });
@@ -90,9 +92,10 @@ router.get(
 // Deleting the listing
 router.post(
   "/:id",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash("error", `Listing deleted successfully!`);
     res.redirect("/listings");
   })
 );

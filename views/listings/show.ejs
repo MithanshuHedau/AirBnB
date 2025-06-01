@@ -1,11 +1,23 @@
 <% layout("/layouts/boilerplate") %>
-
+<body>
+  
 <!-- Overlay -->
 <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
 <!-- Main Content -->
 <div class="relative z-10 flex items-center justify-center min-h-screen px-4 py-10">
   <div class="bg-[#1e1e1e] text-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-2xl max-w-xl w-full overflow-hidden">
+
+    <% if (success && success.length > 0) { %>
+      <div id="flashji" class="z-20 relative mx-auto mb-6 w-fit px-6 py-3 rounded-xl bg-green-500 bg-opacity-90 text-white text-center font-semibold shadow-lg animate-fadeIn">
+        ✅ <%= success[0] %>
+      </div>
+    <% } %> 
+    <% if (error && error.length > 0) { %>
+      <div id="flashji" class="z-20 relative mx-auto mb-6 w-fit px-6 py-3 rounded-xl bg-red-500 bg-opacity-90 text-white text-center font-semibold shadow-lg animate-fadeIn">
+        ⚠️ <%= error[0] %>
+      </div>
+    <% } %> 
     
     <!-- Back Button -->
     <div class="flex items-center p-4 border-b border-gray-200">
@@ -114,3 +126,14 @@
 
   </div>
 </div>
+
+
+<script>
+  const flash = document.getElementById('flashji');
+  setTimeout(()=>{
+    if(flash){
+      flash.style.display = 'none';
+    }
+  },2000);
+</script>
+</body>

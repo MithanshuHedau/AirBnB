@@ -9,7 +9,7 @@ const Review = require("../models/review.js");
 // ✅ Route: /listings/:id/reviews
 router.post(
   "/reviews",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const { rating, comment } = req.body;
     const listing = await Listing.findById(id);
@@ -20,6 +20,8 @@ router.post(
     await listing.save();
 
     console.log("Review added successfully");
+    req.flash("success", "Review added successfully!");
+    req.flash("success", "New listing created successfully!");
     res.redirect(`/listings/${id}`);
   })
 );
@@ -36,6 +38,7 @@ router.post(
     });
 
     console.log("Review deleted successfully");
+    req.flash("error", "Review deleted successfully!");
     res.redirect(`/listings/${id}`);
   })
 );
