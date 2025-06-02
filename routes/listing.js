@@ -14,7 +14,12 @@ router.get(
 
 // Creating a new listing
 router.get("/newlist", (req, res) => {
-  res.render("listings/form.ejs");
+  if (req.isAuthenticated() == true) {
+    res.render("listings/form.ejs");
+  } else {
+    req.flash("error", "You need to be logged in to create a listing.");
+    res.redirect("/login");
+  }
 });
 
 // Posting the new listing to the database
@@ -46,7 +51,12 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
-    res.render("listings/editfrom.ejs", { listing });
+    if (req.isAuthenticated() == true) {
+      res.render("listings/editfrom.ejs", { listing });
+    } else {
+      req.flash("error", "You need to be logged in to edit a listing.");
+      res.redirect("/login");
+    }
   })
 );
 
@@ -75,7 +85,12 @@ router.get(
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     let listing = await Listing.findById(id);
-    res.render("listings/deleteform.ejs", { listing });
+    if (req.isAuthenticated() == true) {
+      res.render("listings/deleteform.ejs", { listing });
+    } else {
+      req.flash("error", "You need to be logged in to delete a listing.");
+      res.redirect("/login");
+    }
   })
 );
 

@@ -1,5 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 
+
 <body class="relative min-h-screen overflow-hidden font-sans text-white">
 
   <!-- Background Video -->
@@ -17,9 +18,25 @@
 
   <!-- Centered Text -->
   <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
+    
+    <div>
+      <% if (success && success.length > 0) { %>
+        <div id="flashji" class="alert alert-success">
+          ✅ <%= success[0] %>
+        </div>
+      <% } %>
+
+      <% if (error && error.length > 0) { %>
+        <div class="alert alert-danger">
+         ❌ <%= error[0] %>
+        </div>
+      <% } %>
+    </div>
+
     <h1 class="text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">
       Welcome to WanderLust
     </h1>
+
     <p class="text-xl md:text-2xl max-w-xl drop-shadow-md">
       Explore the world’s best travel listings with comfort and style.
     </p>
@@ -33,4 +50,13 @@
     </div>
   </div>
 
+
+<script>
+  const flash = document.getElementById("flashji");
+  setTimeout(()=>{
+    if(flash){
+      flash.style.display='none';
+    }
+  },3000);
+</script>
 </body>
