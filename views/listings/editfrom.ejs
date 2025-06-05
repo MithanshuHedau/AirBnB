@@ -9,8 +9,15 @@
         Edit Listing: <span class="text-yellow-400"><%= listing._id %></span>
       </h2>
 
-      <form id="editForm" method="post" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="flex flex-col space-y-4">
-        <% const fields = ["title", "description", "price", "location", "country", "image"]; %>
+      <form 
+        id="editForm" 
+        method="POST" 
+        action="/listings/<%= listing._id %>?_method=PUT" 
+        enctype="multipart/form-data"
+        novalidate 
+        class="flex flex-col space-y-4"
+      >
+        <% const fields = ["title", "description", "price", "location", "country"]; %>
         <% fields.forEach(field => { %>
           <div>
             <input
@@ -26,14 +33,40 @@
           </div>
         <% }) %>
 
+        <!-- Show current image -->
+        <div>
+          <p class="text-gray-300 mb-1">Current Image:</p>
+          <img 
+            src="<%= listing.image?.url || listing.image %>" 
+            alt="<%= listing.title %>" 
+            class="w-48 h-32 object-cover rounded-md" 
+          />
+        </div>
+
+        <!-- Upload new image -->
+        <div>
+          <label for="image" class="block text-gray-300 mb-1">Change Image:</label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
+            class="block w-full text-white file:bg-yellow-400 file:text-black file:font-semibold file:px-4 file:py-2 file:rounded-lg"
+          />
+        </div>
+
+        <!-- Hidden fields to retain old image -->
+        <input type="hidden" name="existingImageUrl" value="<%= listing.image?.url || listing.image %>">
+        <input type="hidden" name="existingImageFilename" value="<%= listing.image?.filename || '' %>">
+
         <button
           type="submit"
           class="bg-yellow-400 text-black font-semibold py-3 rounded-lg hover:bg-yellow-500 transition"
         >
           Update Listing
         </button>
-        
       </form>
+
 
       <a style="text-decoration: none;"
         href="/listings"
@@ -45,7 +78,7 @@
 
     <div class="flex-1 flex justify-center items-center">
       <img
-        src="<%= listing.image %>"
+        src="<%= listing.image.url %>"
         alt="Listing Image"
         class="rounded-lg max-h-80 object-cover border border-gray-600"
       />

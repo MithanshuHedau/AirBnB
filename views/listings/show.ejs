@@ -30,7 +30,7 @@
     </div>
 
     <!-- Listing Image -->
-    <img src="<%= listing.image %>" alt="<%= listing.title %>" class="w-full h-60 object-cover" />
+    <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="w-full h-60 object-cover" />
 
     <!-- Listing Info -->
     <div class="p-6 space-y-4">
@@ -60,18 +60,31 @@
     </div>
 
     <!-- Leave a Review -->
+    <!-- Leave a Review -->
     <div class="px-6 pb-6">
       <h3 class="text-xl font-semibold text-white mb-4 border-b border-gray-600 pb-2">📝 Leave a Review</h3>
       <form method="POST" action="/listings/<%= listing._id %>/reviews" class="space-y-4">
-        <div>
-          <label for="rating" class="block text-sm font-medium text-gray-300">Rating (1-5)</label>
-          <input type="range" min="1" max="5" id="rating" name="rating"
-                 class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
-        </div>
+        
+        <!-- Slot Machine Star Rating -->
+        <fieldset class="starability-slot">
+          <legend class="block text-sm font-medium text-gray-300 mb-2">Rate this listing:</legend>
 
+          <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+          <input type="radio" id="rate1" name="rating" value="1" />
+          <label for="rate1" title="Terrible">1 star</label>
+          <input type="radio" id="rate2" name="rating" value="2" />
+          <label for="rate2" title="Not good">2 stars</label>
+          <input type="radio" id="rate3" name="rating" value="3" />
+          <label for="rate3" title="Average">3 stars</label>
+          <input type="radio" id="rate4" name="rating" value="4" />
+          <label for="rate4" title="Very good">4 stars</label>
+          <input type="radio" id="rate5" name="rating" value="5" />
+          <label for="rate5" title="Amazing">5 stars</label>
+        </fieldset>
+
+        <!-- Comment -->
         <div class="relative w-full max-w-md">
           <label for="comment" class="block text-sm font-medium text-gray-300 mb-1">Comment</label>
-    
           <textarea
             name="comment"
             id="comment"
@@ -82,18 +95,18 @@
             oninvalid="this.setCustomValidity('Please Comment kare🙏')"
             oninput="this.setCustomValidity('')"
           ></textarea>
-    
           <p class="absolute text-sm text-red-500 mt-1 hidden" id="commentError">Please Comment kare🙏</p>
         </div>
 
-
+        <!-- Submit Button -->
         <button type="submit"
                 class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow">
           Submit Review
         </button>
-        
+
       </form>
     </div>
+
 
     <!-- Show Reviews -->
     <div class="px-6 pb-8">

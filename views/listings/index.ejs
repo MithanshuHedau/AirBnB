@@ -28,9 +28,13 @@
 
           <!-- Image -->
           <a href="/listings/<%= listing._id %>">
-            <img src="<%= listing.image %>" alt="<%= listing.title %>"
-                 class="w-full h-48 object-cover hover:scale-105 transition duration-300" />
+            <img
+              src="<%= listing.image.url %>"
+              alt="<%= listing.title %>"
+              class="w-full h-48 object-cover hover:scale-105 transition duration-300"
+            />
           </a>
+
 
           <!-- Content -->
           <div class="p-4">

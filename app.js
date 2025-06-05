@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const port = 8080;
 const express = require("express");
 const app = express();
@@ -17,6 +21,8 @@ const User = require("./models/user.js");
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/reviews.js");
 const userRouter = require("./routes/user");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 ``;

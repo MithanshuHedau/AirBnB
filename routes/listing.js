@@ -3,6 +3,9 @@ const router = express.Router();
 const Listing = require("../models/listning.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 router.get(
   "/",
@@ -23,27 +26,30 @@ router.get("/newlist", (req, res) => {
 });
 
 // Posting the new listing to the database
-router.post("/", (req, res, next) => {
-  const { title, description, image, location, country, price } = req.body;
-  const newData = new Listing({
-    title: title,
-    description: description,
-    image: image,
-    location: location,
-    country: country,
-    price: price,
-  });
-  newData
-    .save()
-    .then((res) => {
-      console.log("Data saved successfully");
-    })
-    .catch((err) => {
-      console.log("Error saving data", err);
+router.post(
+  "/",
+  upload.single("image"),
+  wrapAsync(async (req, res) => {
+    const { title, description, location, country, price } = req.body;
+
+    const newListing = new Listing({
+      title,
+      description,
+      image: {
+        url: req.file.path,
+        filename: req.file.filename,
+      },
+      location,
+      country,
+      price,
     });
-  req.flash("success", "New listing created successfully!");
-  res.redirect("/listings");
-});
+
+    await newListing.save();
+
+    req.flash("success", "New listing created successfully!");
+    res.redirect("/listings");
+  })
+);
 
 // Edit Form Rendering
 router.get(
@@ -63,19 +69,31 @@ router.get(
 // Updating the listing
 router.put(
   "/:id",
-  wrapAsync(async (req, res, next) => {
+  upload.single("image"),
+  wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const { title, description, image, location, country, price } = req.body;
-    let updatedData = await Listing.findByIdAndUpdate(id, {
-      title: title,
-      description: description,
-      image: image,
-      location: location,
-      country: country,
-      price: price,
-    });
-    req.flash("success", `${title} updated successfully!`);
-    res.redirect(`/listings/${id}`);
+    const { title, description, price, location, country } = req.body;
+
+    const listing = await Listing.findById(id);
+
+    listing.title = title;
+    listing.description = description;
+    listing.price = price;
+    listing.location = location;
+    listing.country = country;
+
+    // If a new image is uploaded
+    if (req.file) {
+      listing.image = {
+        url: req.file.path,
+        filename: req.file.filename,
+      };
+    }
+
+    await listing.save();
+
+    req.flash("success", "Listing updated successfully!");
+    res.redirect(`/listings/${listing._id}`);
   })
 );
 

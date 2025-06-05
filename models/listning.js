@@ -9,13 +9,8 @@ const listingSchema = new mongoose.Schema({
   },
   // filepath: c:\Users\mitha\OneDrive\Desktop\Node Js All Projects\AirBnb_Mern_Project\models\listning.js
   image: {
-    type: String,
-    default:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    set: (v) =>
-      v === ""
-        ? "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
-        : v,
+    url: String,
+    filename: String,
   },
   price: {
     type: Number,

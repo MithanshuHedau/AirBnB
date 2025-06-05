@@ -19,7 +19,7 @@
       </h1>
 
       <!-- Bootstrap Validation Form -->
-      <form action="/listings" method="post" class="needs-validation space-y-4 sm:space-y-5" novalidate>
+      <form action="/listings" enctype="multipart/form-data" method="post" class="needs-validation space-y-4 sm:space-y-5" novalidate>
         <div>
           <label class="form-label text-gray-300 font-medium mb-1">Title</label>
           <input type="text" name="title" placeholder="e.g., Ocean View Resort" required
@@ -35,8 +35,8 @@
         </div>
 
         <div>
-          <label class="form-label text-gray-300 font-medium mb-1">Image URL</label>
-          <input type="text" name="image" placeholder="https://example.com/image.jpg"
+          <label class="form-label text-gray-300 font-medium mb-1">Upload Image</label>
+          <input type="file" name="image" 
             class="form-control bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:text-white focus:placeholder-gray-400" />
         </div>
 
