@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Listing = require("../models/listning.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL =
+  "mongodb+srv://hedaumithanshu:hedaumithanshu@cluster0.om5rn.mongodb.net/wanderLust";
 
 const sampleListings = [
   {
@@ -72,10 +73,6 @@ const sampleListings = [
 ];
 
 main()
-  .then(() => {
-    console.log("Connection open");
-    return Listing.insertMany(sampleListings);
-  })
   .then(() => {
     console.log("Sample listings inserted successfully");
   })

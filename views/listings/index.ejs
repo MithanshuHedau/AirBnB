@@ -6,7 +6,7 @@
   <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-0"></div>
 
   <!-- Main content -->
-  <div class="relative z-10 container mx-auto px-4 py-12">
+  <div class="relative z-10 container mx-auto px-4 ">
 
     <% if (success && success.length > 0) { %>
       <div id="flashji" class="z-20 relative mx-auto mb-6 w-fit px-6 py-3 rounded-xl bg-green-500 bg-opacity-90 text-white text-center font-semibold shadow-lg animate-fadeIn">
@@ -18,6 +18,58 @@
         ⚠️ <%= error[0] %>
       </div>
     <% } %> 
+
+    <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl shadow-md flex flex-col lg:flex-row flex-wrap lg:items-center justify-between gap-4 mb-6">
+
+      <!-- Icons Row -->
+      <div class="flex overflow-x-auto gap-4 w-full lg:w-auto">
+        <% const icons = [
+          { icon: "fa-fire", label: "Trending" },
+          { icon: "fa-bed", label: "Rooms" },
+          { icon: "fa-city", label: "Iconic Cities" },
+          { icon: "fa-mountain", label: "Mountains" },
+          { icon: "fa-chess-rook", label: "Castles" },
+          { icon: "fa-swimmer", label: "Pools" },
+          { icon: "fa-campground", label: "Camping" },
+          { icon: "fa-tractor", label: "Farms" },
+          { icon: "fa-snowflake", label: "Arctic" }
+        ]; %>
+
+        <% icons.forEach(({ icon, label }) => { %>
+          <div class="flex flex-col items-center bg-white/20 hover:bg-[#f97316] text-white hover:text-black px-4 py-2 rounded-lg shadow-md transition-all duration-200 cursor-pointer min-w-[80px]">
+            <i class="fas <%= icon %> text-xl mb-1"></i>
+            <span class="text-xs font-semibold"><%= label %></span>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Apply Coupon -->
+      <div class="flex flex-1 flex-wrap sm:flex-nowrap items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl shadow-md min-w-[260px]">
+        <!-- Label -->
+        <span class="text-sm text-white font-medium whitespace-nowrap">Apply Coupon</span>
+
+        <!-- Input -->
+        <input
+          id="couponInput"
+          type="text"
+          placeholder="Enter coupon code for discount"
+          class="px-3 py-2 text-sm rounded-md bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-yellow-400 w-full sm:w-52 lg:w-64"
+        />
+
+        <button
+          id="applyCouponBtn"
+          class="bg-orange-400 hover:bg-orange-500 text-black font-semibold text-sm px-4 py-2 rounded-md transition duration-200 whitespace-nowrap"
+        >
+          <i class="fas fa-check mr-1"></i>Apply
+        </button>
+
+      </div>
+
+    </div>
+
+
+
+    
 
 
     <!-- Listings Grid -->
@@ -44,7 +96,10 @@
             <p class="text-gray-300 text-sm mt-1 mb-3 line-clamp-2">
               <%= listing.description %>
             </p>
-            <p class="text-orange-400 font-semibold mb-1">₹ <%= listing.price.toLocaleString("en-IN") %></p>
+            <p class="text-orange-400 font-semibold mb-1 original-price" data-original="<%= listing.price %>">
+              ₹ <%= listing.price.toLocaleString("en-IN") %>
+            </p>
+
             <p class="text-gray-400 text-sm">📍 <%= listing.location %>, <%= listing.country %></p>
           </div>
 
@@ -53,12 +108,26 @@
     </div>
   </div>
 
+</body>
   <script>
     const flash = document.getElementById('flashji');
+    const applyBtn = document.getElementById("applyCouponBtn");
+    const couponInput = document.getElementById("couponInput");
     setTimeout(() => {
       if (flash) {
         flash.style.display = 'none';
       }
     }, 2000);
+
+    applyBtn.addEventListener("click", () => {
+    const coupon = couponInput.value.trim();
+    if (coupon !== "") {
+      const prices = document.querySelectorAll(".original-price");
+      prices.forEach((priceEl) => {
+        const original = parseFloat(priceEl.getAttribute("data-original"));
+        const discounted = Math.round(original * 0.9); // 10% off
+        priceEl.innerHTML = `<span class="line-through opacity-70 mr-2">₹ ${original.toLocaleString("en-IN")}</span> ₹ ${discounted.toLocaleString("en-IN")}`;
+      });
+    }
+  });
   </script>
-</body>
