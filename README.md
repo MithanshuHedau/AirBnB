@@ -7,6 +7,7 @@ WanderLust is a full-stack 🧳 travel platform that allows users to explore, li
 🛠️ Technologies Used
 
 🧩 Backend :=
+<br/>
 ⚙️ Node.js
 🚂 Express.js
 🍃 MongoDB with Mongoose
